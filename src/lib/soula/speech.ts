@@ -25,6 +25,34 @@ export function canListen() {
   return recognitionCtor() !== null;
 }
 
+function girlVoice() {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
+  const voices = window.speechSynthesis.getVoices();
+  const english = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
+  let best: SpeechSynthesisVoice | null = null;
+  let bestScore = 0;
+  for (const voice of english) {
+    const name = voice.name.toLowerCase();
+    let score = 1;
+    if (name.includes("child") || name.includes("girl") || name.includes("kid")) score += 6;
+    if (name.includes("female") || name.includes("woman")) score += 3;
+    if (/samantha|victoria|karen|moira|fiona|tessa|serena|zira|aria|jenny|libby|sonia|hazel|susan/.test(name)) {
+      score += 2;
+    }
+    if (name.includes("male") || /david|daniel|alex|fred|rishi|guy/.test(name)) score -= 5;
+    if (voice.lang === "en-US" || voice.lang === "en_US") score += 1;
+    if (score > bestScore) {
+      best = voice;
+      bestScore = score;
+    }
+  }
+  return best;
+}
+
+if (typeof window !== "undefined" && "speechSynthesis" in window) {
+  window.speechSynthesis.getVoices();
+}
+
 export function speak(text: string) {
   if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
   const english = text
@@ -32,11 +60,24 @@ export function speak(text: string) {
     .map((line) => line.trim())
     .find((line) => /[A-Za-z]/.test(line));
   const line = (english ?? text).slice(0, 180);
-  window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(line);
-  utterance.lang = "en-US";
-  utterance.rate = 0.92;
-  window.speechSynthesis.speak(utterance);
+  const say = () => {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(line);
+    utterance.lang = "en-US";
+    utterance.rate = 0.82;
+    utterance.pitch = 1.45;
+    const voice = girlVoice();
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+    }
+    window.speechSynthesis.speak(utterance);
+  };
+  if (window.speechSynthesis.getVoices().length === 0) {
+    window.speechSynthesis.addEventListener("voiceschanged", say, { once: true });
+    return;
+  }
+  say();
 }
 
 export function listenOnce(): Promise<string> {
