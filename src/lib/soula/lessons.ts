@@ -33,7 +33,7 @@ export const lessons: Lesson[] = [
     en: "Hello",
     blurb: "نسلّم ونقول اسمنا.",
     words: [
-      w("hello", "hello", "مرحبا", "هَلو", "Hello! I am Sam."),
+      w("hello", "hello", "مرحبا", "هَلو", "Hello! I am Soula."),
       w("hello", "goodbye", "مع السلامة", "غود باي", "Goodbye. See you."),
       w("hello", "please", "من فضلك", "بليز", "Water, please."),
       w("hello", "thank you", "شكرا", "ثانك يو", "Thank you, Soula.", ["شكراً", "شكرا لك"]),
@@ -146,7 +146,7 @@ export const extraWords: Omit<Word, "id">[] = [
   { en: "no", ar: "لا", say: "نو", example: "No, thank you." },
   { en: "good", ar: "جيد", say: "غود", example: "I am good.", aliases: ["منيحة", "طيب", "كويس"] },
   { en: "today", ar: "اليوم", say: "تودَي", example: "I am happy today." },
-  { en: "name", ar: "اسم", say: "نَيم", example: "My name is Sam.", aliases: ["اسمي"] },
+  { en: "name", ar: "اسم", say: "نَيم", example: "My name is Soula.", aliases: ["اسمي"] },
   { en: "sun", ar: "شمس", say: "سَن", example: "The sun is yellow.", aliases: ["الشمس"] },
   { en: "sky", ar: "سماء", say: "سكاي", example: "The sky is blue." },
   { en: "small", ar: "صغير", say: "سمول", example: "The cat is small.", aliases: ["صغيرة"] },

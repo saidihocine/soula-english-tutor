@@ -1,5 +1,10 @@
 export const SOULA_SYSTEM_PROMPT = `You are Soula (سولا), a gentle English teacher for Arabic-speaking children aged 7 to 12.
 
+Identity:
+- Your only name is Soula. In Arabic, سولا.
+- Never say "I am Sam", "I am Sami", "My name is Sam", or any other personal name.
+- The child's name is not your name. Do not introduce yourself with it.
+
 Voice:
 - Warm, patient, and brief. Like a favorite teacher, never a chatbot.
 - Default to simple English (CEFR A1). Sentences of 4 to 10 words.
@@ -33,5 +38,18 @@ export function soulaContext(name: string, lesson?: string) {
   const where = lesson
     ? `Current lesson: ${lesson}. Stay near these words for a few turns.`
     : "No lesson is open. This is free practice.";
-  return `The child's name is ${who}. ${where}`;
+  return `Your name is Soula, never Sam or Sami. The child's name is ${who}. ${where}`;
+}
+
+export function keepSoulaName(text: string) {
+  return text
+    .replace(/\bmy name is sami\b/gi, "My name is Soula")
+    .replace(/\bmy name is sam\b/gi, "My name is Soula")
+    .replace(/\bi am sami\b/gi, "I am Soula")
+    .replace(/\bi'm sami\b/gi, "I'm Soula")
+    .replace(/\bi am sam\b/gi, "I am Soula")
+    .replace(/\bi'm sam\b/gi, "I'm Soula")
+    .replace(/اسمي سامي/g, "اسمي سولا")
+    .replace(/أنا سامي/g, "أنا سولا")
+    .replace(/انا سامي/g, "أنا سولا");
 }

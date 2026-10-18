@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Mic, Send, Volume2 } from "lucide-react";
+import { keepSoulaName } from "@/lib/soula/prompt";
 import { lessonById } from "@/lib/soula/lessons";
 import { askStudio } from "@/lib/soula/lm";
 import { canListen, listenOnce, speak } from "@/lib/soula/speech";
@@ -45,7 +46,7 @@ export function Chat() {
           .filter((message) => message.role === "child" || message.role === "soula")
           .map((message) => ({
             role: message.role === "child" ? ("user" as const) : ("assistant" as const),
-            content: message.text,
+            content: message.role === "soula" ? keepSoulaName(message.text) : message.text,
           }));
         reply = await askStudio({
           baseUrl: lmUrl,
@@ -68,6 +69,7 @@ export function Chat() {
         setLink("tutor");
       }
     }
+    reply = keepSoulaName(reply);
     addMessage({ role: "soula", text: reply });
     if (useSoula.getState().speak) speak(reply);
     setPending(false);
@@ -106,7 +108,7 @@ export function Chat() {
               }`}
             >
               <p className="whitespace-pre-wrap break-words" dir="auto">
-                {message.text}
+                {message.role === "soula" ? keepSoulaName(message.text) : message.text}
               </p>
               {message.role === "soula" ? (
                 <button

@@ -1,6 +1,6 @@
 import { proxyLm } from "@/lib/soula/lm-proxy";
 import { normalizeLmBase } from "@/lib/soula/lm-url";
-import { SOULA_SYSTEM_PROMPT, soulaContext } from "@/lib/soula/prompt";
+import { SOULA_SYSTEM_PROMPT, keepSoulaName, soulaContext } from "@/lib/soula/prompt";
 
 export type StudioTurn = { role: "user" | "assistant"; content: string };
 
@@ -60,16 +60,18 @@ export async function askStudio(options: {
   const base = normalizeLmBase(options.baseUrl);
   const messages = [
     { role: "system", content: `${SOULA_SYSTEM_PROMPT}\n\n${soulaContext(options.name, options.lesson)}` },
-    ...options.turns.slice(-12),
+    ...options.turns.slice(-12).map((turn) =>
+      turn.role === "assistant" ? { ...turn, content: keepSoulaName(turn.content) } : turn,
+    ),
   ];
   const hinted = options.model.trim();
   const direct = await probeDirect(base);
   if (direct !== null) {
-    return chatDirect(base, hinted || direct || "qwen2.5-7b-instruct", messages);
+    return keepSoulaName(await chatDirect(base, hinted || direct || "qwen2.5-7b-instruct", messages));
   }
   const proxied = await proxyLm({
     data: { baseUrl: base, model: hinted, messages, ping: false },
   });
   if (!proxied.ok) throw new Error(proxied.error);
-  return proxied.text;
+  return keepSoulaName(proxied.text);
 }
