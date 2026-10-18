@@ -11,15 +11,15 @@ export function Welcome({ ready }: { ready: boolean }) {
     <main className="grid min-h-dvh md:grid-cols-2">
       <div className="relative min-h-40 md:order-2 md:min-h-dvh">
         <img
-          src="/soula/classroom.jpg"
-          alt="ركن دراسة دافئ بشباك مستدير وأقلام"
-          className="absolute inset-0 h-full w-full object-cover"
+          src="/soula/soula-full.jpg"
+          alt="سولا"
+          className="soula-frame absolute inset-0 h-full w-full"
         />
       </div>
       <section className="flex flex-col justify-center gap-5 px-6 py-8 md:order-1 md:px-12">
         <div className="flex items-center gap-4">
           <img
-            src="/soula/portrait.jpg"
+            src="/soula/portrait.jpg?v=2"
             alt="سولا، المعلمة"
             className="size-20 rounded-full border-4 border-cream object-cover shadow-sm"
           />

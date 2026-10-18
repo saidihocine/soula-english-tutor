@@ -90,7 +90,7 @@ export function Chat() {
   return (
     <div className="flex min-h-[70dvh] flex-col gap-4">
       <header className="flex items-center gap-3">
-        <img src="/soula/portrait.jpg" alt="" className="size-12 rounded-full object-cover" />
+        <img src="/soula/portrait.jpg?v=2" alt="" className="size-12 rounded-full object-cover" />
         <div>
           <h1 className="font-display text-3xl leading-none">حديث مع سولا</h1>
           <p className="text-sm text-muted">{status}</p>

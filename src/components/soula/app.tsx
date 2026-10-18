@@ -37,7 +37,7 @@ export function SoulaApp() {
     <div className="mx-auto flex min-h-dvh w-full max-w-5xl flex-col md:flex-row">
       <aside className="hidden w-72 shrink-0 flex-col gap-6 border-l border-line bg-cream p-6 md:flex">
         <div className="flex items-center gap-3">
-          <img src="/soula/portrait.jpg" alt="سولا" className="size-16 rounded-full object-cover" />
+          <img src="/soula/portrait.jpg?v=2" alt="سولا" className="size-16 rounded-full object-cover" />
           <div>
             <p className="font-display text-2xl leading-none">سولا</p>
             <p className="text-sm text-muted">Hi, {name}</p>

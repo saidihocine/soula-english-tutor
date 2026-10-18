@@ -23,7 +23,7 @@ export function Home({ onOpen }: { onOpen: (id: string) => void }) {
   return (
     <div className="flex flex-col gap-6">
       <header className="flex items-center gap-3 md:hidden">
-        <img src="/soula/portrait.jpg" alt="" className="size-14 rounded-full object-cover" />
+        <img src="/soula/portrait.jpg?v=2" alt="" className="size-14 rounded-full object-cover" />
         <div className="min-w-0">
           <p className="text-sm text-muted">أهلاً</p>
           <h1 className="truncate font-display text-3xl leading-none">Hi, {name}</h1>

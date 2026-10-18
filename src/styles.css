@@ -57,8 +57,9 @@
   }
 }
 
-.soula-dot {
-  animation: soula-breathe 1s ease-in-out infinite;
+.soula-frame {
+  object-fit: cover;
+  object-position: center 32%;
 }
 
 @media (prefers-reduced-motion: reduce) {
