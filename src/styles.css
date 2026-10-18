@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sand: #f3e6d4;
+  --color-cream: #fff8f0;
+  --color-ink: #2a241c;
+  --color-muted: #5e564c;
+  --color-line: #e0d2c2;
+  --color-terra: #a84322;
+  --color-terra-deep: #8c381c;
+  --color-terra-soft: #f6e4da;
+  --color-leaf: #2f5d40;
+  --color-leaf-soft: #e4f0e6;
+  --font-sans: "Cairo", "DejaVu Sans", "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "DejaVu Serif", "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background: var(--color-sand);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    line-height: 1.5;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-terra);
+    outline-offset: 3px;
+  }
+}
+
+@keyframes soula-breathe {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.soula-dot {
+  animation: soula-breathe 1s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soula-dot {
+    animation: none;
+  }
+}

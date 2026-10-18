@@ -1,0 +1,12 @@
+node_modules
+.output
+dist
+.nitro
+.tanstack
+.vercel
+.grok
+screenshots
+artifacts
+*.log
+.env
+.env.*
