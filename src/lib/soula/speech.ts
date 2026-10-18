@@ -25,28 +25,34 @@ export function canListen() {
   return recognitionCtor() !== null;
 }
 
-function girlVoice() {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return null;
-  const voices = window.speechSynthesis.getVoices();
-  const english = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
+function voiceStyle() {
+  if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+    return { voice: null as SpeechSynthesisVoice | null, rate: 0.92, pitch: 1.08 };
+  }
+  const voices = window.speechSynthesis.getVoices().filter((voice) => voice.lang.toLowerCase().startsWith("en"));
   let best: SpeechSynthesisVoice | null = null;
   let bestScore = 0;
-  for (const voice of english) {
+  for (const voice of voices) {
     const name = voice.name.toLowerCase();
     let score = 1;
-    if (name.includes("child") || name.includes("girl") || name.includes("kid")) score += 6;
+    if (/natural|neural|premium|enhanced/.test(name)) score += 8;
+    if (/\bana\b|child|girl|kid/.test(name)) score += 4;
     if (name.includes("female") || name.includes("woman")) score += 3;
-    if (/samantha|victoria|karen|moira|fiona|tessa|serena|zira|aria|jenny|libby|sonia|hazel|susan/.test(name)) {
-      score += 2;
-    }
-    if (name.includes("male") || /david|daniel|alex|fred|rishi|guy/.test(name)) score -= 5;
-    if (voice.lang === "en-US" || voice.lang === "en_US") score += 1;
+    if (/samantha|victoria|karen|moira|fiona|tessa|serena|zira|aria|jenny|libby|sonia|hazel/.test(name)) score += 2;
+    if (name.includes("male") || /\bdavid\b|\bdaniel\b|\balex\b|\bfred\b|\brishi\b/.test(name)) score -= 6;
+    if (voice.localService) score += 1;
     if (score > bestScore) {
       best = voice;
       bestScore = score;
     }
   }
-  return best;
+  const name = best?.name.toLowerCase() ?? "";
+  const natural = /natural|neural|premium|enhanced|\bana\b|child|girl/.test(name);
+  return {
+    voice: best,
+    rate: 0.92,
+    pitch: natural ? 1.04 : 1.12,
+  };
 }
 
 if (typeof window !== "undefined" && "speechSynthesis" in window) {
@@ -63,14 +69,11 @@ export function speak(text: string) {
   const say = () => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(line);
-    utterance.lang = "en-US";
-    utterance.rate = 0.82;
-    utterance.pitch = 1.45;
-    const voice = girlVoice();
-    if (voice) {
-      utterance.voice = voice;
-      utterance.lang = voice.lang;
-    }
+    const style = voiceStyle();
+    utterance.lang = style.voice?.lang || "en-US";
+    utterance.rate = style.rate;
+    utterance.pitch = style.pitch;
+    if (style.voice) utterance.voice = style.voice;
     window.speechSynthesis.speak(utterance);
   };
   if (window.speechSynthesis.getVoices().length === 0) {
